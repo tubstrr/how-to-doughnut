@@ -1,6 +1,7 @@
 <template>
 	<section class="doughnut">
 		<div class="main">
+			<!-- Background layer -->
 			<svg class="full" width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path
 					d="M250 35.5082C131.539 35.5082 35.5081 131.539 35.5081 250C35.5081 368.46 131.539 464.492 250 464.492C368.46 464.492 464.492 368.46 464.492 250C464.492 131.539 368.46 35.5082 250 35.5082Z"
@@ -21,13 +22,14 @@
 				/>
 			</svg>
 
+			<!-- Ring Layer -->
 			<svg
-				class="full percentage"
+				class="percentage full"
+				:style="`--percentage:0.${info.percentage};`"
+				:class="info.direction"
 				viewbox="0 0 100 100"
 				width="500"
 				height="500"
-				:style="`--percentage:0.${info.percentage};`"
-				:class="info.direction"
 			>
 				<circle cx="250" cy="250" r="215" />
 				<defs>
@@ -38,13 +40,14 @@
 				</defs>
 			</svg>
 
+			<!-- Dot Layer -->
 			<div class="dot-wrapper full" :style="`--percentage: ${cheatNum};`" :class="info.direction">
 				<span class="dot" />
 			</div>
 
-			<span class="full center text-inner">{{ cheatNum }}%</span>
+			<!-- Text Layer -->
+			<span class="text-inner center full">{{ cheatNum }}%</span>
 		</div>
-		<strong class="title" v-if="info.title">{{ info.title }}</strong>
 	</section>
 </template>
 
@@ -70,13 +73,7 @@
 			type() {
 				if (this.data?.type === "vs") return "vs";
 				else return "default";
-			},
-			hasAnimations() {
-				return this.data?.animation;
 			}
-			// per() {
-			//     return 100
-			// }
 		},
 		methods: {
 			updatePercentage(percentage) {
@@ -124,7 +121,9 @@
 				width: 100%;
 				height: 100%;
 			}
+
 			--pie: 3.124;
+			--radius: calc(250px - (70px / 2));
 			--radius: 215px;
 			--circ: calc(2 * var(--pie) * var(--radius));
 
@@ -139,17 +138,19 @@
 				stroke-linecap: round;
 				transform: rotate(-90deg);
 				transform-origin: center;
-				stroke-dasharray: calc(var(--circ) * var(--percentage)), var(--circ);
+				--dash: calc(var(--circ) * var(--percentage));
+				--offset: calc(var(--circ) - var(--dash));
+				stroke-dasharray: var(--dash), var(--offset);
 
 				&.left {
 					transform: rotate(90deg) rotateY(180deg);
 				}
 			}
 			.dot-wrapper {
-				--degrees: calc((360 * var(--percentage)) / 100);
-				--position: calc(var(--degrees) * 1deg);
+				--position: calc((360 * var(--percentage)) / 100);
+				--degrees: calc(var(--position) * 1deg);
 
-				transform: rotate(var(--position));
+				transform: rotate(var(--degrees));
 
 				.dot {
 					height: 50px;

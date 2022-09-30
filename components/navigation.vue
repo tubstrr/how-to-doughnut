@@ -9,7 +9,7 @@
 	// Data
 	const route = useRoute();
 	const pageID = ref(null);
-	const max = 1;
+	const max = 5;
 
 	// Methods
 	const updatePageID = (value) => {
