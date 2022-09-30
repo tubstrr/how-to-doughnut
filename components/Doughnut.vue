@@ -165,7 +165,7 @@
 				}
 
 				&.left {
-					--position: calc(var(--degrees) * -1deg);
+					--degrees: calc(var(--position) * -1deg);
 					.dot {
 						transform: translate3d(calc(-50% + 5px), 10px, 0);
 					}
