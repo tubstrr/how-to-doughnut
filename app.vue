@@ -17,6 +17,7 @@
 	:root {
 		--blue: #3d6fb1;
 		--white: #edeeef;
+		--gray: #adadad;
 		--black: #1a2330;
 	}
 	html,
